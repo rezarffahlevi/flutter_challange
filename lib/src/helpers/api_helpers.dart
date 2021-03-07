@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_challange/src/helpers/validators.dart';
 import 'package:http/http.dart' as client;
 import 'dart:async';
 import 'package:flutter_challange/src/constants/configs.dart';
+import 'package:flutter_challange/src/constants/constant.dart';
+import 'preferences_base.dart';
 
 class ApiHelper {
   ApiHelper._instantiate();
-
-  String baseUrl = getBaseUrl();
 
   static final ApiHelper instance = ApiHelper._instantiate();
 
@@ -15,8 +16,14 @@ class ApiHelper {
 
   ApiHelper();
 
-  static String getBaseUrl() {
-    return Configs.baseUrl;
+  static String getBaseUrl(key) {
+    try {
+      final base = jsonDecode(Configs.baseUrl);
+      if (Validators.isNull(key)) return base[CONSTANT.KEY_API_MY_UNPAM];
+      return base[key];
+    } catch (e) {
+      print("ERR $e");
+    }
   }
 
   static String _getAuthorization() {
@@ -32,9 +39,9 @@ class ApiHelper {
     // String pushToken = await Prefs.pushToken;
     // if (pushToken == '') pushToken = 'ERROR';
 
-    // result["Authorization"] = _getAuthorization();
+    result["Authorization"] = 'Bearer ' + await Prefs.token;
     // result["user-agent"] = await Utilities.getUserAgent();
-    // result["Content-Type"] = "application/json";
+    result["Content-Type"] = "application/json";
 
     // print('header : $result');
     return result;
@@ -48,7 +55,8 @@ class ApiHelper {
     return result;
   }
 
-  Future<dynamic> get(String url, {dynamic params}) async {
+  Future<dynamic> get(String url, {dynamic params, String baseUrl}) async {
+    baseUrl = getBaseUrl(baseUrl);
     print('CALL API GET ==> ${baseUrl + url}');
     if (params != null) {
       url += mapToParamString(params);
@@ -72,7 +80,8 @@ class ApiHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, {dynamic params}) async {
+  Future<dynamic> post(String url, {dynamic params, String baseUrl}) async {
+    baseUrl = getBaseUrl(baseUrl);
     print('CALL API POST ==> ${baseUrl + url}');
     String bodyString = '';
     if (params != null) {
@@ -129,6 +138,8 @@ class ApiHelper {
     //     throw SocketException('Ups, Sorry Mums. Coba lagi dong');
     //   default:
     // }
-    return response;
+
+    var responseJson = json.decode(response.body.toString());
+    return responseJson;
   }
 }

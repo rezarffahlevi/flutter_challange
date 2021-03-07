@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_challange/src/constants/enums.dart';
+import 'package:flutter_challange/src/constants/constant.dart';
 
 class Configs {
 // IMPORTANT! CHECK BEFORE BUILD
@@ -7,9 +10,11 @@ class Configs {
 
   static const String _devBuildNumber = '.0';
 
-  static const _baseUrlStaging = 'jsonplaceholder.typicode.com';
+  static const _baseUrlStaging = 'my.unpam.ac.id';
+  static const _baseUrlSSOStaging = 'sso.unpam.ac.id';
 
-  static const _baseUrlProduction = 'jsonplaceholder.typicode.com';
+  static const _baseUrlProduction = 'my.unpam.ac.id';
+  static const _baseUrlSSOProduction = 'sso.unpam.ac.id';
 
   static String get getDevBuildNumber {
     String result = '';
@@ -19,18 +24,20 @@ class Configs {
     return result;
   }
 
-  static String get baseUrl {
+  static dynamic get baseUrl {
     // List<String> result;
-    String result;
+    Map<String, String> result = Map<String, String>();
     switch (appEnvironment) {
       case AppEnvironmentEnum.STAGING:
-        result = _baseUrlStaging;
+        result[CONSTANT.KEY_API_MY_UNPAM] = _baseUrlStaging;
+        result[CONSTANT.KEY_API_SSO] = _baseUrlSSOStaging;
         break;
       case AppEnvironmentEnum.PRODUCTION:
-        result = _baseUrlProduction;
+        result[CONSTANT.KEY_API_MY_UNPAM] = _baseUrlProduction;
+        result[CONSTANT.KEY_API_SSO] = _baseUrlSSOProduction;
         break;
     }
-    return result;
+    return jsonEncode(result);
   }
 
   static String get authorization {

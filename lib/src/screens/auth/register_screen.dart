@@ -67,11 +67,11 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _submitButton(BuildContext context, bloc) {
+  Widget _submitButton(BuildContext context, RegisterBloc bloc) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 15),
         width: MediaQuery.of(context).size.width,
-        child: TheRoundedButton('Daftar', null));
+        child: TheRoundedButton('Daftar', bloc.onSubmit));
   }
 
   @override

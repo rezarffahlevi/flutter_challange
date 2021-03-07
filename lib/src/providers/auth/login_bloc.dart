@@ -1,12 +1,23 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_challange/src/screens/user/profile_screen.dart';
+import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
+import 'package:flutter_challange/src/services/auth_sevice.dart';
+import 'package:flutter_challange/src/models/auth/login_model.dart';
+
+import '../../helpers/preferences_base.dart';
+import '../../models/auth/login_model.dart';
 
 class LoginBloc extends ChangeNotifier {
   BuildContext _context;
 
   CustomLoader loader = CustomLoader();
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final _repository = AuthService();
+  LoginResponseModel _auth;
+  LoginModel loginModel = LoginModel();
 
   final emailController = TextEditingController();
   String _email;
@@ -37,14 +48,29 @@ class LoginBloc extends ChangeNotifier {
     _context = context;
   }
 
-  onSubmit() {
-    print('_email => $_email; _password => $_password;');
+  onSubmit() async {
+    try {
+      loader.showLoader(_context);
+      loginModel.username = _email;
+      loginModel.password = _password;
 
-    loader.showLoader(_context);
-    Timer(Duration(seconds: 1), () {
+      final response = await _repository.postLogin(loginModel);
+      _auth = response;
       loader.hideLoader();
-      // Navigator.pushReplacementNamed(_context, ProfileScreen.routeName);
-    });
+      if (_auth.errorCode == 0) {
+        await Prefs.setAuth(loginModel);
+        await Prefs.setToken(_auth.data);
+        Navigator.pushReplacementNamed(_context, ProfileScreen.routeName);
+      } else {
+        customSnackBar(scaffoldKey, _auth.errorDesc,
+            backgroundColor: Colors.redAccent);
+      }
+    } catch (e) {
+      loader.hideLoader();
+      print("ERROR SUBMIT ==> $e");
+      customSnackBar(scaffoldKey, 'Something went wrong!',
+          backgroundColor: Colors.redAccent);
+    }
   }
 
   clearEmailValue() {

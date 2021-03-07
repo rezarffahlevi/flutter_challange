@@ -327,7 +327,6 @@ void customSnackBar(GlobalKey<ScaffoldState> _scaffoldKey, String msg,
   _scaffoldKey.currentState.hideCurrentSnackBar();
   final snackBar = SnackBar(
       backgroundColor: backgroundColor,
-      behavior: SnackBarBehavior.floating,
       content: Text(
         msg,
         style: TextStyle(

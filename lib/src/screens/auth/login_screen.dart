@@ -121,6 +121,7 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: TheColors.background,
+      key: bloc.scaffoldKey,
       appBar: null,
 //    ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(

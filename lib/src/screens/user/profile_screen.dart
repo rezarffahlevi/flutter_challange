@@ -1,5 +1,3 @@
-import 'package:awesome_card/awesome_card.dart';
-import 'package:awesome_card/credit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_challange/src/constants/the_colors.dart';
 import 'package:flutter_challange/src/models/user/user_model.dart';
@@ -10,15 +8,14 @@ class ProfileScreen extends StatelessWidget {
   static const String routeName = '/profile';
   @override
   Widget build(BuildContext context) {
-    // Panggil file bloc tadi
-    // Untuk dijalankan function fetchDatanya didalam class home ini
     final UserBloc bloc = Provider.of<UserBloc>(context);
-    bloc.fecthData();
+    bloc.didMount(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
       ),
+      key: bloc.scaffoldKey,
       body: Container(
         padding: EdgeInsets.all(10),
         alignment: Alignment.center,
