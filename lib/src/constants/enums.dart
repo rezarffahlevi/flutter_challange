@@ -1,0 +1,1 @@
+enum AppEnvironmentEnum { STAGING, PRODUCTION }
