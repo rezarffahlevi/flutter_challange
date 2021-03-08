@@ -1,43 +1,46 @@
 class LoginModel {
-  String username;
+  String email;
   String password;
 
   LoginModel({
-    this.username,
+    this.email,
     this.password,
   });
 
   LoginModel.fromJson(Map<String, dynamic> json) {
-    username = json['username'];
+    email = json['email'];
     password = json['password'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['username'] = this.username;
+    data['email'] = this.email;
     data['password'] = this.password;
     return data;
   }
 }
 
 class LoginResponseModel {
-  int errorCode;
-  String errorDesc;
-  String data;
+  bool status;
+  String type;
+  String token;
+  String message;
 
-  LoginResponseModel({this.errorCode, this.errorDesc, this.data});
+  LoginResponseModel({this.status, this.type, this.token});
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    errorCode = json['error_code'];
-    errorDesc = json['error_desc'];
-    data = json['data'];
+    status = json['status'];
+    type = json['type'];
+    token = json['token'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error_code'] = this.errorCode;
-    data['error_desc'] = this.errorDesc;
-    data['data'] = this.data;
+    data['status'] = this.status;
+    data['type'] = this.type;
+    data['token'] = this.token;
+    data['message'] = this.message;
     return data;
   }
 }

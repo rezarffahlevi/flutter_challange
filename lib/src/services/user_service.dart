@@ -5,9 +5,9 @@ import 'package:flutter_challange/src/constants/constant.dart';
 class UserService {
   ApiHelper apiProvider = ApiHelper();
 
-  Future<List<UserModel>> fecthData() async {
-    final response = await apiProvider.get('/api/biodata/akademik');
-    final result = userModelFromJson(response.body);
+  Future<UserResponseModel> fecthData() async {
+    final response = await apiProvider.get('/api/auth/user');
+    final result = UserResponseModel.fromJson(response);
     return result;
   }
 }

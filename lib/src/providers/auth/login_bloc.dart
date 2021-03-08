@@ -51,18 +51,18 @@ class LoginBloc extends ChangeNotifier {
   onSubmit() async {
     try {
       loader.showLoader(_context);
-      loginModel.username = _email;
+      loginModel.email = _email;
       loginModel.password = _password;
 
       final response = await _repository.postLogin(loginModel);
       _auth = response;
       loader.hideLoader();
-      if (_auth.errorCode == 0) {
+      if (_auth.status) {
         await Prefs.setAuth(loginModel);
-        await Prefs.setToken(_auth.data);
+        await Prefs.setToken(_auth.token);
         Navigator.pushReplacementNamed(_context, ProfileScreen.routeName);
       } else {
-        customSnackBar(scaffoldKey, _auth.errorDesc,
+        customSnackBar(scaffoldKey, _auth.message,
             backgroundColor: Colors.redAccent);
       }
     } catch (e) {

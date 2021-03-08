@@ -19,10 +19,11 @@ class ApiHelper {
   static String getBaseUrl(key) {
     try {
       final base = jsonDecode(Configs.baseUrl);
-      if (Validators.isNull(key)) return base[CONSTANT.KEY_API_MY_UNPAM];
+      if (Validators.isNull(key)) return base[CONSTANT.KEY_BASE_URL];
       return base[key];
     } catch (e) {
       print("ERR $e");
+      return 'Error';
     }
   }
 
@@ -69,7 +70,7 @@ class ApiHelper {
           .get(uri, headers: await getHeader())
           .timeout(_getTimeOutDuration());
       // print('RESPONSE ${response.body}');
-      print('GET STATUS CODE  ${url} ==> ${response.statusCode}');
+      print('GET STATUS CODE  $url ==> ${response.statusCode}');
       responseJson = _returnResponse(response);
     } on SocketException {
       print('No net');
@@ -96,7 +97,7 @@ class ApiHelper {
           .post(uri, body: bodyString, headers: await getHeader())
           .timeout(_getTimeOutDuration());
       // print('RESPONSE ${response.body}');
-      print('POST STATUS CODE ${url} ==> ${response.statusCode}');
+      print('POST STATUS CODE $url ==> ${response.statusCode}');
       responseJson = _returnResponse(response);
     } on SocketException {
       print('No net');

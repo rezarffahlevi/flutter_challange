@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_challange/src/models/user/user_model.dart';
+import 'package:flutter_challange/src/screens/auth/login_screen.dart';
 import 'package:flutter_challange/src/services/user_service.dart';
+import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,22 +21,20 @@ class UserBloc extends ChangeNotifier {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final _repository = UserService();
-  List<UserModel> _user;
-  List<UserModel> get listUser => _user;
-  set listUser(List<UserModel> val) {
+  UserModel _user = UserModel();
+  UserModel get user => _user;
+  set setUser(UserModel val) {
     _user = val;
     notifyListeners();
   }
 
-  int userId;
-
   UserBloc() {
     fecthData();
+    // getToken();
   }
 
-  didMount(context) async {
+  didMount(context) {
     _context = context;
-    // PreferencesHelper.removeAll();
   }
 
   getToken() async {
@@ -42,7 +44,20 @@ class UserBloc extends ChangeNotifier {
 
   fecthData() async {
     final response = await _repository.fecthData();
-    listUser = response;
-    return listUser;
+    if (response.status) {
+      setUser = response.data;
+    } else {
+      customSnackBar(scaffoldKey, response.message,
+          backgroundColor: Colors.redAccent);
+      Timer(Duration(seconds: 2), () {
+        logout();
+      });
+    }
+    return user;
+  }
+
+  logout() async {
+    PreferencesHelper.removeAll();
+    Navigator.pushReplacementNamed(_context, LoginScreen.routeName);
   }
 }

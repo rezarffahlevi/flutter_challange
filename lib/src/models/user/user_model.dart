@@ -1,127 +1,51 @@
-import 'dart:convert';
+class UserResponseModel {
+  bool status;
+  String message;
+  UserModel data;
 
-List<UserModel> userModelFromJson(String str) =>
-    List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
+  UserResponseModel({this.status, this.message, this.data});
 
-String userModelToJson(List<UserModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+  UserResponseModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    data = json['data'] != null ? new UserModel.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
+    }
+    return data;
+  }
+}
 
 class UserModel {
-  int id;
-  String name;
-  String username;
+  String id;
   String email;
-  Address address;
-  String phone;
-  String website;
-  Company company;
+  String fullname;
+  String createAt;
+  String updateAt;
 
-  UserModel({
-    this.id,
-    this.name,
-    this.username,
-    this.email,
-    this.address,
-    this.phone,
-    this.website,
-    this.company,
-  });
+  UserModel({this.id, this.email, this.fullname, this.createAt, this.updateAt});
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        name: json["name"],
-        username: json["username"],
-        email: json["email"],
-        address: Address.fromJson(json["address"]),
-        phone: json["phone"],
-        website: json["website"],
-        company: Company.fromJson(json["company"]),
-      );
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    email = json['email'];
+    fullname = json['fullname'];
+    createAt = json['createAt'];
+    updateAt = json['updateAt'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "username": username,
-        "email": email,
-        "address": address.toJson(),
-        "phone": phone,
-        "website": website,
-        "company": company.toJson(),
-      };
-}
-
-class Address {
-  String street;
-  String suite;
-  String city;
-  String zipcode;
-  Geo geo;
-
-  Address({
-    this.street,
-    this.suite,
-    this.city,
-    this.zipcode,
-    this.geo,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        street: json["street"],
-        suite: json["suite"],
-        city: json["city"],
-        zipcode: json["zipcode"],
-        geo: Geo.fromJson(json["geo"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "street": street,
-        "suite": suite,
-        "city": city,
-        "zipcode": zipcode,
-        "geo": geo.toJson(),
-      };
-}
-
-class Geo {
-  String lat;
-  String lng;
-
-  Geo({
-    this.lat,
-    this.lng,
-  });
-
-  factory Geo.fromJson(Map<String, dynamic> json) => Geo(
-        lat: json["lat"],
-        lng: json["lng"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "lat": lat,
-        "lng": lng,
-      };
-}
-
-class Company {
-  String name;
-  String catchPhrase;
-  String bs;
-
-  Company({
-    this.name,
-    this.catchPhrase,
-    this.bs,
-  });
-
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
-        name: json["name"],
-        catchPhrase: json["catchPhrase"],
-        bs: json["bs"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "catchPhrase": catchPhrase,
-        "bs": bs,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['email'] = this.email;
+    data['fullname'] = this.fullname;
+    data['createAt'] = this.createAt;
+    data['updateAt'] = this.updateAt;
+    return data;
+  }
 }
