@@ -81,8 +81,9 @@ class LoginScreen extends StatelessWidget {
         width: dimension.width,
         // margin: EdgeInsets.symmetric(horizontal: 35),
         child: TheRoundedButton(
-            'Masuk',
-            Validators.isNull(bloc.email) || Validators.isNull(bloc.password)
+            title: 'Masuk',
+            onPressed: Validators.isNull(bloc.email) ||
+                    Validators.isNull(bloc.password)
                 ? null
                 : bloc.onSubmit),
       );
@@ -165,7 +166,7 @@ class LoginScreen extends StatelessWidget {
                     top: dimension.height / 8,
                     left: dimension.width / 10,
                     child: Text(
-                      'Flutter\nChallange\nReza Fahlevi',
+                      'Arisan\nMenjaga\nSilaturahmi',
                       maxLines: 3,
                       textAlign: TextAlign.left,
                       style: TextStyle(

@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 import 'package:flutter_challange/src/providers/auth/register_bloc.dart';
+import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
+import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
+import 'package:flutter_challange/src/providers/onboarding/oboarding_bloc.dart';
 import 'package:flutter_challange/src/screens/auth/login_screen.dart';
 import 'package:flutter_challange/src/screens/auth/register_screen.dart';
+import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
+import 'package:flutter_challange/src/screens/home/home_root_screen.dart';
+import 'package:flutter_challange/src/screens/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/providers/splash/splash_bloc.dart';
@@ -59,6 +65,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             );
           },
         );
+      case OnboardingScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return ChangeNotifierProvider<OnboardingBloc>.value(
+              value: OnboardingBloc(),
+              child: OnboardingScreen(),
+            );
+          },
+        );
       case LoginScreen.routeName:
         return MaterialPageRoute(
           builder: (context) {
@@ -74,6 +89,28 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             return ChangeNotifierProvider<RegisterBloc>.value(
               value: RegisterBloc(),
               child: RegisterScreen(),
+            );
+          },
+        );
+      case HomeRootScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<HomeRootBloc>.value(
+                  value: HomeRootBloc(),
+                  child: HomeRootScreen(),
+                ),
+                ChangeNotifierProvider<FeedBloc>.value(
+                  value: FeedBloc(),
+                  child: FeedScreen(),
+                ),
+                ChangeNotifierProvider<UserBloc>.value(
+                  value: UserBloc(),
+                  child: ProfileScreen(),
+                ),
+              ],
+              child: HomeRootScreen(),
             );
           },
         );

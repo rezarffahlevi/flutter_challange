@@ -9,6 +9,7 @@ import '../models/auth/login_model.dart';
 class Prefs {
   static const String KEY_AUTH = 'KEY_AUTH';
   static const String KEY_TOKEN = 'KEY_TOKEN';
+  static const String KEY_HAS_INIT = 'KEY_HAS_INIT';
 
   // AUTH
   static Future<LoginModel> get auth async {
@@ -28,6 +29,11 @@ class Prefs {
   static Future<String> get token => PreferencesHelper.getString(KEY_TOKEN);
   static Future setToken(String value) =>
       PreferencesHelper.setString(KEY_TOKEN, value);
+
+  // INIT
+  static Future<bool> get hasInit => PreferencesHelper.getBool(KEY_HAS_INIT);
+  static Future setHasInit(bool value) =>
+      PreferencesHelper.setBool(KEY_HAS_INIT, value);
 }
 
 class PreferencesHelper {

@@ -4,10 +4,11 @@ import 'package:flutter_challange/src/helpers/validators.dart';
 import 'package:http/http.dart' as client;
 import 'dart:async';
 import 'package:flutter_challange/src/constants/configs.dart';
-import 'package:flutter_challange/src/constants/constant.dart';
 import 'preferences_base.dart';
 
 class ApiHelper {
+  static const String BASE_URL = 'BASE_URL';
+
   ApiHelper._instantiate();
 
   static final ApiHelper instance = ApiHelper._instantiate();
@@ -19,7 +20,7 @@ class ApiHelper {
   static String getBaseUrl(key) {
     try {
       final base = jsonDecode(Configs.baseUrl);
-      if (Validators.isNull(key)) return base[CONSTANT.KEY_BASE_URL];
+      if (Validators.isNull(key)) return base[BASE_URL];
       return base[key];
     } catch (e) {
       print("ERR $e");

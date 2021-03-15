@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Flutter Challange\nBy Reza Fahlevi',
+            'Narisa\n Solusi untuk arisan',
             style: TheTextStyle.h2,
             textAlign: TextAlign.center,
           ),

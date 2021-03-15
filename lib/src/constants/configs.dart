@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter_challange/src/constants/enums.dart';
-import 'package:flutter_challange/src/constants/constant.dart';
+import 'package:flutter_challange/src/helpers/api_helpers.dart';
 
 class Configs {
 // IMPORTANT! CHECK BEFORE BUILD
@@ -27,10 +26,10 @@ class Configs {
     Map<String, String> result = Map<String, String>();
     switch (appEnvironment) {
       case AppEnvironmentEnum.STAGING:
-        result[CONSTANT.KEY_BASE_URL] = _baseUrlStaging;
+        result[ApiHelper.BASE_URL] = _baseUrlStaging;
         break;
       case AppEnvironmentEnum.PRODUCTION:
-        result[CONSTANT.KEY_BASE_URL] = _baseUrlProduction;
+        result[ApiHelper.BASE_URL] = _baseUrlProduction;
         break;
     }
     return jsonEncode(result);

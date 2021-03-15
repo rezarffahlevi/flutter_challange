@@ -30,6 +30,23 @@ class TheTextStyle {
       TheTextStyle.h7.normal.copyWith(color: TheColors.grey);
 
   static TextStyle get appBarTitle => TheTextStyle.h5.normal;
+
+  static TextStyle get bottomSheetTitle =>
+      TheTextStyle.h2.bold.copyWith(color: TheColors.backdrop);
+
+  static TextStyle get sessionTitle =>
+      TheTextStyle.h5.semiBold.copyWith(color: TheColors.backdrop);
+
+  static TextStyle get milestoneTitle => TextStyle(
+      fontSize: 32,
+      fontWeight: TheFontWeight.ultraBold,
+      color: TheColors.white);
+
+  static TextStyle get buttonTitle =>
+      h4.normal.copyWith(color: TheColors.backdrop);
+
+  static TextStyle get smallButtonTitle =>
+      h6.semiBold.copyWith(color: TheColors.primary);
 }
 
 // ignore: must_be_immutable

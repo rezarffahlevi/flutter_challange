@@ -71,7 +71,7 @@ class RegisterScreen extends StatelessWidget {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 15),
         width: MediaQuery.of(context).size.width,
-        child: TheRoundedButton('Daftar', bloc.onSubmit));
+        child: TheRoundedButton(title: 'Daftar', onPressed: bloc.onSubmit));
   }
 
   @override

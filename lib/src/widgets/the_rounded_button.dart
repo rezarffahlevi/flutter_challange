@@ -32,7 +32,7 @@ class TheRoundedButton extends StatelessWidget {
   final String title;
   final Function onPressed;
 
-  TheRoundedButton(this.title, this.onPressed);
+  TheRoundedButton({this.title, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

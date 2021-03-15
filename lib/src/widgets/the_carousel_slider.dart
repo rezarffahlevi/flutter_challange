@@ -8,59 +8,59 @@ import 'package:flutter/material.dart';
 class CarouselSlider extends StatefulWidget {
   CarouselSlider(
       {@required this.items,
-        this.height,
-        this.aspectRatio: 16 / 9,
-        this.viewportFraction: 0.8,
-        this.initialPage: 0,
-        int realPage: 10000,
-        this.enableInfiniteScroll: true,
-        this.reverse: false,
-        this.autoPlay: false,
-        this.autoPlayInterval: const Duration(seconds: 4),
-        this.autoPlayAnimationDuration = const Duration(milliseconds: 800),
-        this.autoPlayCurve: Curves.fastOutSlowIn,
-        this.pauseAutoPlayOnTouch,
-        this.enlargeCenterPage = false,
-        this.onPageChanged,
-        this.scrollPhysics,
-        this.scrollDirection: Axis.horizontal})
+      this.height,
+      this.aspectRatio: 16 / 9,
+      this.viewportFraction: 0.8,
+      this.initialPage: 0,
+      int realPage: 10000,
+      this.enableInfiniteScroll: true,
+      this.reverse: false,
+      this.autoPlay: false,
+      this.autoPlayInterval: const Duration(seconds: 4),
+      this.autoPlayAnimationDuration = const Duration(milliseconds: 800),
+      this.autoPlayCurve: Curves.fastOutSlowIn,
+      this.pauseAutoPlayOnTouch,
+      this.enlargeCenterPage = false,
+      this.onPageChanged,
+      this.scrollPhysics,
+      this.scrollDirection: Axis.horizontal})
       : this.realPage =
-  enableInfiniteScroll ? realPage + initialPage : initialPage,
+            enableInfiniteScroll ? realPage + initialPage : initialPage,
         this.itemCount = items.length,
         this.itemBuilder = null,
         this.pageController = PageController(
           viewportFraction: viewportFraction,
           initialPage:
-          enableInfiniteScroll ? realPage + initialPage : initialPage,
+              enableInfiniteScroll ? realPage + initialPage : initialPage,
         );
 
   /// The on demand item builder constructor
   CarouselSlider.builder(
       {@required this.itemCount,
-        @required this.itemBuilder,
-        this.height,
-        this.aspectRatio: 16 / 9,
-        this.viewportFraction: 0.8,
-        this.initialPage: 0,
-        int realPage: 10000,
-        this.enableInfiniteScroll: true,
-        this.reverse: false,
-        this.autoPlay: false,
-        this.autoPlayInterval: const Duration(seconds: 4),
-        this.autoPlayAnimationDuration = const Duration(milliseconds: 800),
-        this.autoPlayCurve: Curves.fastOutSlowIn,
-        this.pauseAutoPlayOnTouch,
-        this.enlargeCenterPage = false,
-        this.onPageChanged,
-        this.scrollPhysics,
-        this.scrollDirection: Axis.horizontal})
+      @required this.itemBuilder,
+      this.height,
+      this.aspectRatio: 16 / 9,
+      this.viewportFraction: 0.8,
+      this.initialPage: 0,
+      int realPage: 10000,
+      this.enableInfiniteScroll: true,
+      this.reverse: false,
+      this.autoPlay: false,
+      this.autoPlayInterval: const Duration(seconds: 4),
+      this.autoPlayAnimationDuration = const Duration(milliseconds: 800),
+      this.autoPlayCurve: Curves.fastOutSlowIn,
+      this.pauseAutoPlayOnTouch,
+      this.enlargeCenterPage = false,
+      this.onPageChanged,
+      this.scrollPhysics,
+      this.scrollDirection: Axis.horizontal})
       : this.realPage =
-  enableInfiniteScroll ? realPage + initialPage : initialPage,
+            enableInfiniteScroll ? realPage + initialPage : initialPage,
         this.items = null,
         this.pageController = PageController(
           viewportFraction: viewportFraction,
           initialPage:
-          enableInfiniteScroll ? realPage + initialPage : initialPage,
+              enableInfiniteScroll ? realPage + initialPage : initialPage,
         );
 
   /// The widgets to be shown in the carousel of default constructor
@@ -221,10 +221,10 @@ class _CarouselSliderState extends State<CarouselSlider>
   Timer getTimer() {
     return widget.autoPlay
         ? Timer.periodic(widget.autoPlayInterval, (_) {
-      widget.pageController.nextPage(
-          duration: widget.autoPlayAnimationDuration,
-          curve: widget.autoPlayCurve);
-    })
+            widget.pageController.nextPage(
+                duration: widget.autoPlayAnimationDuration,
+                curve: widget.autoPlayCurve);
+          })
         : null;
   }
 
@@ -243,7 +243,7 @@ class _CarouselSliderState extends State<CarouselSlider>
           : wrapper;
     } else {
       final Widget wrapper =
-      AspectRatio(aspectRatio: widget.aspectRatio, child: child);
+          AspectRatio(aspectRatio: widget.aspectRatio, child: child);
       return widget.autoPlay && widget.pauseAutoPlayOnTouch != null
           ? addGestureDetection(wrapper)
           : wrapper;
@@ -286,8 +286,7 @@ class _CarouselSliderState extends State<CarouselSlider>
           builder: (BuildContext context, child) {
             // on the first render, the pageController.page is null,
             // this is a dirty hack
-            if (widget.pageController.position.minScrollExtent == null ||
-                widget.pageController.position.maxScrollExtent == null) {
+            if (!widget.pageController.position.hasContentDimensions) {
               Future.delayed(Duration(microseconds: 1), () {
                 if (this.mounted) {
                   setState(() {});
@@ -307,12 +306,12 @@ class _CarouselSliderState extends State<CarouselSlider>
             if (widget.scrollDirection == Axis.horizontal) {
               return Center(
                   child:
-                  SizedBox(height: distortionValue * height, child: child));
+                      SizedBox(height: distortionValue * height, child: child));
             } else {
               return Center(
                   child: SizedBox(
                       width:
-                      distortionValue * MediaQuery.of(context).size.width,
+                          distortionValue * MediaQuery.of(context).size.width,
                       child: child));
             }
           },
