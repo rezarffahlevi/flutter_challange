@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Narisa\n Solusi untuk arisan',
+            'Mo-Ring',
             style: TheTextStyle.h2,
             textAlign: TextAlign.center,
           ),

@@ -33,19 +33,19 @@ class HomeRootScreen extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'HOME',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'SEARCH',
+                label: 'BERANDA',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.group_rounded),
                 label: 'ARISAN',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'NOTIFIKASI',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'ACCOUNT',
+                label: 'AKUN',
               ),
             ],
           ),

@@ -27,9 +27,10 @@ class TheTextStyle {
   static TextStyle get contentTitle => TheTextStyle.h4.bold;
 
   static TextStyle get contentDescription =>
-      TheTextStyle.h7.normal.copyWith(color: TheColors.grey);
+      TheTextStyle.h7.normal.copyWith(color: TheColors.text);
 
-  static TextStyle get appBarTitle => TheTextStyle.h5.normal;
+  static TextStyle get appBarTitle =>
+      TheTextStyle.h3.normal.copyWith(color: TheColors.black);
 
   static TextStyle get bottomSheetTitle =>
       TheTextStyle.h2.bold.copyWith(color: TheColors.backdrop);
