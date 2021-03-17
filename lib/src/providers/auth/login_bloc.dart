@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_challange/src/screens/home/home_root_screen.dart';
 import 'package:flutter_challange/src/screens/user/profile_screen.dart';
 import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
@@ -60,7 +61,7 @@ class LoginBloc extends ChangeNotifier {
       if (_auth.status) {
         await Prefs.setAuth(loginModel);
         await Prefs.setToken(_auth.token);
-        Navigator.pushReplacementNamed(_context, ProfileScreen.routeName);
+        Navigator.pushReplacementNamed(_context, HomeRootScreen.routeName);
       } else {
         customSnackBar(scaffoldKey, _auth.message,
             backgroundColor: Colors.redAccent);

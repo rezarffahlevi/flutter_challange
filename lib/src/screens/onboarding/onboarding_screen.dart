@@ -103,16 +103,16 @@ class OnboardingScreen extends StatelessWidget {
           pic: 'assets/images/mudah.png',
           title: 'Mudah',
           description:
-              'Dari pada beli barang cuma sekali pakai, mending nyewa aja deh. #LebihHemat'),
+              'Semua ada digenggaman. Lebih mudah, praktis, dan fleksibel. #LebihMudah'),
       carouselItem(context,
           pic: 'assets/images/hemat.png',
-          title: 'Bermanfaat',
+          title: 'Rapih',
           description:
-              'Punya barang tapi udah jarang kita pakai? yaudah mending disewain biar ada manfaatnya. #LebihBermanfaat'),
+              'Semua pencatatan jadi rapih dan transparan. #LebihRapih'),
       carouselItem(context,
           pic: 'assets/images/cepat.png',
-          title: 'Cepat',
-          description: 'Cepat sebelum terlambat'),
+          title: 'Lengkap',
+          description: 'Fitur banyak, akses mudah. #LebihEnak'),
     ];
   }
 

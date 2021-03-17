@@ -14,6 +14,7 @@ import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/helpers/validators.dart';
 import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
 import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
+import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_carousel_slider.dart';
 import 'package:flutter_challange/src/widgets/the_rounded_button.dart';
 import 'package:flutter_challange/src/widgets/the_sized_box.dart';
@@ -52,44 +53,13 @@ class FeedScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildAppBar(context),
+              appBar(),
             ],
           ),
         )),
       ),
     );
   }
-
-  Container _buildAppBar(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        height: 60.0,
-        // color: TheColors.blue,
-        child: Row(
-          children: <Widget>[
-            Text(
-              'Mo-Ring',
-              style: TheTextStyle.appBarTitle,
-            ),
-            TheSizedBox.normalHorizontal(),
-            Spacer(),
-            // InkWell(
-            //   child: Container(
-            //     padding: const EdgeInsets.all(5.0),
-            //     child: Icon(Icons.supervised_user_circle_outlined),
-            //   ),
-            //   onTap: () {},
-            // ),
-            // TheSizedBox.normalHorizontal(),
-            InkWell(
-              child: Container(
-                padding: const EdgeInsets.all(5.0),
-                child: Icon(Icons.animation, color: TheColors.text),
-              ),
-              onTap: () {},
-            ),
-          ],
-        ),
-      );
 
   Widget _listFeed(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
@@ -471,7 +441,7 @@ class FeedScreen extends StatelessWidget {
                 fontSize: 26,
                 fontWeight: TheFontWeight.bold),
           ),
-          TheSizedBox.normalVertical(),
+          TheSizedBox.ultraSmallVertical(),
           Row(
             children: [
               Container(
@@ -521,7 +491,7 @@ class FeedScreen extends StatelessWidget {
                   },
                   weekFormat: false,
                   markedDatesMap: null,
-                  height: 200.0,
+                  height: 220.0,
                   selectedDateTime: DateTime.now(),
                   daysHaveCircularBorder: null,
                 ),

@@ -4,38 +4,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_challange/src/constants/the_colors.dart';
+import 'package:flutter_challange/src/constants/the_text_style.dart';
 import 'package:flutter_challange/src/constants/the_theme.dart';
+import 'package:flutter_challange/src/widgets/the_sized_box.dart';
 import './extensions.dart';
 
-Widget appBar() {
+Widget appBar({onTap: null}) {
   return Container(
-    // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-    padding: EdgeInsets.symmetric(vertical: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+    height: 60.0,
+    // color: TheColors.blue,
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        RotatedBox(
-          quarterTurns: 4,
-          child: icon(Icons.sort, color: Colors.black54),
+        Text(
+          'Mo-Ring',
+          style: TheTextStyle.appBarTitle,
         ),
-        Image.asset(
-          "assets/images/logo.png",
-          height: 50,
-        ),
-        ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(13)),
+        TheSizedBox.normalHorizontal(),
+        Spacer(),
+        // InkWell(
+        //   child: Container(
+        //     padding: const EdgeInsets.all(5.0),
+        //     child: Icon(Icons.supervised_user_circle_outlined),
+        //   ),
+        //   onTap: () {},
+        // ),
+        // TheSizedBox.normalHorizontal(),
+        InkWell(
           child: Container(
-            decoration: BoxDecoration(
-              color: TheColors.white,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Color(0xfff8f8f8), blurRadius: 10, spreadRadius: 10),
-              ],
-            ),
-            // child: Image.asset("assets/icons/profile.png"),
-            child: icon(Icons.notifications, color: Colors.black54),
+            padding: const EdgeInsets.all(5.0),
+            child: Icon(Icons.animation, color: TheColors.text),
           ),
-        ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13)))
+          onTap: onTap,
+        ),
       ],
     ),
   );

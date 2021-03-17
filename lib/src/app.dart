@@ -3,12 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 import 'package:flutter_challange/src/providers/auth/register_bloc.dart';
 import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
+import 'package:flutter_challange/src/providers/gathering/gathering_bloc.dart';
 import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
+import 'package:flutter_challange/src/providers/notification/notification_bloc.dart';
 import 'package:flutter_challange/src/providers/onboarding/oboarding_bloc.dart';
 import 'package:flutter_challange/src/screens/auth/login_screen.dart';
 import 'package:flutter_challange/src/screens/auth/register_screen.dart';
 import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
+import 'package:flutter_challange/src/screens/gathering/gathering_screen.dart';
 import 'package:flutter_challange/src/screens/home/home_root_screen.dart';
+import 'package:flutter_challange/src/screens/notification/notification_screen.dart';
 import 'package:flutter_challange/src/screens/onboarding/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
@@ -104,6 +108,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
                 ChangeNotifierProvider<FeedBloc>.value(
                   value: FeedBloc(),
                   child: FeedScreen(),
+                ),
+                ChangeNotifierProvider<GatheringBloc>.value(
+                  value: GatheringBloc(),
+                  child: GatheringScreen(),
+                ),
+                ChangeNotifierProvider<NotificationBloc>.value(
+                  value: NotificationBloc(),
+                  child: NotificationScreen(),
                 ),
                 ChangeNotifierProvider<UserBloc>.value(
                   value: UserBloc(),

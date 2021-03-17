@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
-import 'package:flutter_challange/src/screens/gathering/gathering_screen.dart';
-import 'package:flutter_challange/src/screens/notification/notification_screen.dart';
-import 'package:flutter_challange/src/screens/user/profile_screen.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
 import 'package:provider/provider.dart';
 
-class HomeRootBloc extends ChangeNotifier {
+class GatheringBloc extends ChangeNotifier {
   BuildContext _context;
 
   CustomLoader loader = CustomLoader();
@@ -21,7 +18,7 @@ class HomeRootBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  HomeRootBloc() {}
+  GatheringBloc() {}
 
   didMount(context) {
     _context = context;
@@ -46,9 +43,9 @@ class HomeRootBloc extends ChangeNotifier {
   }
 
   final List<Widget> children = [
-    FeedScreen(),
-    GatheringScreen(),
-    NotificationScreen(),
-    ProfileScreen(),
+    // SwiggyScreen(),
+    // SearchScreen(),
+    // CartScreen(),
+    // AccountScreen(),
   ];
 }

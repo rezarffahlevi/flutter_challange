@@ -1,21 +1,34 @@
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
+    show CalendarCarousel;
 import 'package:flutter_challange/src/constants/the_colors.dart';
 import 'package:flutter_challange/src/constants/the_font_weight.dart';
 import 'package:flutter_challange/src/constants/the_text_style.dart';
+import 'package:flutter_challange/src/constants/the_theme.dart';
+import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/helpers/validators.dart';
-import 'package:flutter_challange/src/models/user/user_model.dart';
-import 'package:flutter_challange/src/providers/user/user_bloc.dart';
+import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
+import 'package:flutter_challange/src/providers/gathering/gathering_bloc.dart';
+import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
+import 'package:flutter_challange/src/providers/notification/notification_bloc.dart';
 import 'package:flutter_challange/src/widgets/custom_widget.dart';
+import 'package:flutter_challange/src/widgets/the_carousel_slider.dart';
+import 'package:flutter_challange/src/widgets/the_rounded_button.dart';
 import 'package:flutter_challange/src/widgets/the_sized_box.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 
-class ProfileScreen extends StatelessWidget {
-  static const String routeName = '/profile';
+class NotificationScreen extends StatelessWidget {
+  static const String routeName = '/notification';
+
   @override
   Widget build(BuildContext context) {
-    final UserBloc bloc = Provider.of<UserBloc>(context);
+    final bloc = Provider.of<NotificationBloc>(context);
     bloc.didMount(context);
     final dimension = MediaQuery.of(context).size;
 
@@ -38,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                     return false;
                   },
                   child: SingleChildScrollView(
-                    child: _listBody(context, bloc),
+                    child: _listBody(context),
                   ),
                 ),
               ),
@@ -48,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                 right: 0,
                 top: 25,
                 child: Text(
-                  "Profile",
+                  "Notifikasi",
                   textAlign: TextAlign.center,
                   style: TheTextStyle.contentTitle,
                 ),
@@ -60,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _listBody(BuildContext context, bloc) {
+  Widget _listBody(BuildContext context) {
     final dimension = MediaQuery.of(context).size;
     return ListView(
       shrinkWrap: true,
@@ -75,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _listNotifWidget(context, bloc),
+              for (int i = 0; i < 12; i++) _listNotifWidget(context),
             ],
           ),
         ),
@@ -83,34 +96,31 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _listNotifWidget(BuildContext context, bloc) {
+  Widget _listNotifWidget(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         decoration: BoxDecoration(
             // color: TheColors.greyPlaceHolder,
-            border: Border.all(color: TheColors.white, width: 0)),
+            border: Border.all(color: TheColors.greyLight, width: 1)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
                   child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      margin: EdgeInsets.all(15).copyWith(right: 25),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 7.0, color: Colors.black)
-                          ])),
+                    margin: const EdgeInsets.only(right: 15, top: 5),
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/user.png'),
+                            fit: BoxFit.fitWidth),
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: TheColors.white, width: 0)),
+                  ),
                   onTap: () {},
                 ),
                 Expanded(
@@ -118,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Kagura Layla",
+                        "Arisan Keluarga",
                         style: TextStyle(
                           color: TheColors.text,
                           fontWeight: TheFontWeight.bold,
@@ -126,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "kagura@mpl.com",
+                        "Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru",
                         style: TextStyle(
                           color: TheColors.text,
                           fontWeight: TheFontWeight.normal,
@@ -135,18 +145,8 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
+                )
               ],
-            ),
-            InkWell(
-              onTap: bloc.logout,
-              child: Center(
-                child: Text(
-                  'Log out',
-                  style:
-                      TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
-                ),
-              ),
             ),
           ],
         ));
