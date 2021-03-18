@@ -11,21 +11,53 @@ class FeedBloc extends ChangeNotifier {
   CustomLoader loader = CustomLoader();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  int _selectedIndex = 0;
-  int get selectedIndex => _selectedIndex;
-  setSelectedIndex(int val) {
-    _selectedIndex = val;
+  List<String> _listCategory = List<String>();
+  List<String> get listCategory => _listCategory;
+  setListCategory(List<String> val) {
+    _listCategory = val;
     notifyListeners();
   }
 
-  FeedBloc() {}
+  String _selectedCategory = 'Keluarga';
+  String get selectedCategory => _selectedCategory;
+  setSelectedCategory(String val) {
+    _selectedCategory = val;
+    notifyListeners();
+  }
+
+  DateTime _arisanDate = DateTime.now();
+  DateTime get arisanDate => _arisanDate;
+  setArisanDate(DateTime val) {
+    _arisanDate = val;
+    notifyListeners();
+  }
+
+  DateTime _selectedDate = DateTime.now();
+  DateTime get selectedDate => _selectedDate;
+  setSelectedDate(DateTime val) {
+    _selectedDate = val;
+    notifyListeners();
+  }
+
+  FeedBloc() {
+    setListCategory(['Keluarga', 'Alumni 13 Depok', 'Kantor', 'RT 05']);
+    setArisanDate(DateTime(2021, 03, 01, 10, 00, 00));
+  }
 
   didMount(context) {
     _context = context;
   }
 
-  DateTime currentBackPressTime;
+  allMemberCicked() {}
+  allGatherClicked() {}
+  datePickerClicked() {
+    Helpers.dismissKeyboard(_context);
+    Helpers.showDatePicker(_context, 'Tanggal', (value) {
+      setSelectedDate(value);
+    }, defaultDateTime: _selectedDate);
+  }
 
+  DateTime currentBackPressTime;
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
 

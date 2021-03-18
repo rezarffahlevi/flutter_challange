@@ -51,7 +51,7 @@ class NotificationScreen extends StatelessWidget {
                     return false;
                   },
                   child: SingleChildScrollView(
-                    child: _listBody(context),
+                    child: _body(context),
                   ),
                 ),
               ),
@@ -73,35 +73,25 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
-  Widget _listBody(BuildContext context) {
-    final dimension = MediaQuery.of(context).size;
-    return ListView(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      children: [
-        Container(
-          color: TheColors.white,
-          padding: const EdgeInsets.only(top: 0, bottom: 0),
-          constraints: BoxConstraints(
-              minHeight: dimension.height, minWidth: double.infinity),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              for (int i = 0; i < 12; i++) _listNotifWidget(context),
-            ],
-          ),
-        ),
-      ],
-    );
+  Widget _body(BuildContext context) {
+    return ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        itemCount: 13,
+        itemBuilder: (context, index) {
+          return _notifWidget(context, index);
+        });
   }
 
-  Widget _listNotifWidget(BuildContext context) {
+  Widget _notifWidget(BuildContext context, index) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         decoration: BoxDecoration(
-            // color: TheColors.greyPlaceHolder,
-            border: Border.all(color: TheColors.greyLight, width: 1)),
+            color: index == 0 || index == 2
+                ? TheColors.greyLight
+                : TheColors.white,
+            border: Border.all(color: TheColors.greyPlaceHolder, width: 1)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +118,7 @@ class NotificationScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Arisan Keluarga",
+                        "Duit 1 Milyar",
                         style: TextStyle(
                           color: TheColors.text,
                           fontWeight: TheFontWeight.bold,

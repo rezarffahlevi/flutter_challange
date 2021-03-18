@@ -50,7 +50,7 @@ class GatheringScreen extends StatelessWidget {
                     return false;
                   },
                   child: SingleChildScrollView(
-                    child: _listBody(context),
+                    child: _body(context, bloc),
                   ),
                 ),
               ),
@@ -72,37 +72,26 @@ class GatheringScreen extends StatelessWidget {
     );
   }
 
-  Widget _listBody(BuildContext context) {
+  Widget _body(BuildContext context, GatheringBloc bloc) {
     final dimension = MediaQuery.of(context).size;
-    return ListView(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      children: [
-        Container(
-          color: TheColors.white,
-          padding: const EdgeInsets.only(top: 20, bottom: 50),
-          constraints: BoxConstraints(
-              minHeight: dimension.height, minWidth: double.infinity),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              for (int i = 0; i < 3; i++) _arisanWidget(context),
-            ],
-          ),
-        ),
-      ],
-    );
+    return ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        itemCount: 13,
+        itemBuilder: (context, index) {
+          return _arisanWidget(context);
+        });
   }
 
   Widget _arisanWidget(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
         decoration: BoxDecoration(
-            color: TheColors.pink,
-            borderRadius: BorderRadius.circular(7),
-            border: Border.all(color: TheColors.white, width: 1)),
+            color: TheColors.white,
+            borderRadius: BorderRadius.circular(0),
+            border: Border.all(color: TheColors.greyPlaceHolder, width: 1)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +109,7 @@ class GatheringScreen extends StatelessWidget {
                             image: AssetImage('assets/images/user.png'),
                             fit: BoxFit.fitWidth),
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: TheColors.pink, width: 0)),
+                        border: Border.all(color: TheColors.white, width: 0)),
                   ),
                   onTap: () {},
                 ),
@@ -131,7 +120,7 @@ class GatheringScreen extends StatelessWidget {
                       Text(
                         "Arisan Keluarga",
                         style: TextStyle(
-                          color: TheColors.textReverse,
+                          color: TheColors.text,
                           fontWeight: TheFontWeight.bold,
                           fontSize: 18,
                         ),
@@ -139,7 +128,7 @@ class GatheringScreen extends StatelessWidget {
                       Text(
                         "Admin : Dustin Ilham",
                         style: TextStyle(
-                          color: TheColors.textReverse,
+                          color: TheColors.text,
                           fontWeight: TheFontWeight.normal,
                           fontSize: 14,
                         ),
@@ -147,12 +136,23 @@ class GatheringScreen extends StatelessWidget {
                       Text(
                         "19 Anggota",
                         style: TextStyle(
-                          color: TheColors.textReverse,
+                          color: TheColors.text,
                           fontWeight: TheFontWeight.normal,
                           fontSize: 14,
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 50,
+                    height: 60,
+                    child: Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 30,
+                    ),
                   ),
                 )
               ],

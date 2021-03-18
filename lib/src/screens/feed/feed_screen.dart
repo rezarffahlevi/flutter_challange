@@ -18,6 +18,8 @@ import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_carousel_slider.dart';
 import 'package:flutter_challange/src/widgets/the_rounded_button.dart';
 import 'package:flutter_challange/src/widgets/the_sized_box.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 
@@ -49,7 +51,7 @@ class FeedScreen extends StatelessWidget {
                     return false;
                   },
                   child: SingleChildScrollView(
-                    child: _listFeed(context),
+                    child: _body(context, bloc),
                   ),
                 ),
               ),
@@ -61,7 +63,7 @@ class FeedScreen extends StatelessWidget {
     );
   }
 
-  Widget _listFeed(BuildContext context) {
+  Widget _body(BuildContext context, FeedBloc bloc) {
     final dimension = MediaQuery.of(context).size;
     return ListView(
       shrinkWrap: true,
@@ -111,18 +113,18 @@ class FeedScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _categoryWidget('Arisan'),
-              _categoryGatheringWidget(context),
+              _categoryWidget('Arisan', onTapAll: bloc.allGatherClicked),
+              _categoryGatheringWidget(bloc),
               TheSizedBox.extraSmallVertical(),
-              _categoryWidget('Anggota (16)'),
+              _categoryWidget('Anggota (16)', onTapAll: bloc.allMemberCicked),
               _memberWidget(context, height: 60.0),
               TheSizedBox.extraSmallVertical(),
               _categoryWidget('Detail', showAll: false),
               _detailWidget(context),
               TheSizedBox.extraSmallVertical(),
-              _calendarWidget(context),
+              _calendarWidget(context, bloc),
               TheSizedBox.extraSmallVertical(),
-              _pemenangWidget(context),
+              _pemenangWidget(context, bloc),
             ],
           ),
         ),
@@ -192,7 +194,7 @@ class FeedScreen extends StatelessWidget {
     );
   }
 
-  Widget _categoryGatheringWidget(BuildContext context) {
+  Widget _categoryGatheringWidget(FeedBloc bloc) {
     return Container(
       margin: EdgeInsets.only(left: 15, right: 15, bottom: 15, top: 10),
       height: 40,
@@ -212,49 +214,30 @@ class FeedScreen extends StatelessWidget {
             onTap: () {},
           ),
           Expanded(
-            child: ListView(scrollDirection: Axis.horizontal, children: [
-              InkWell(
-                child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: TheColors.primary, width: 1)),
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    margin: const EdgeInsets.only(right: 10),
-                    child: Text("Keluarga")),
-                onTap: () {
-                  return true;
-                },
-              ),
-              InkWell(
-                child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            color: TheColors.greyPlaceHolder, width: 1)),
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    margin: const EdgeInsets.only(right: 10),
-                    child: Text("Teman")),
-                onTap: () {
-                  return true;
-                },
-              ),
-              InkWell(
-                child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                            color: TheColors.greyPlaceHolder, width: 1)),
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    margin: const EdgeInsets.only(right: 10),
-                    child: Text("Kantor")),
-                onTap: () {
-                  return true;
-                },
-              ),
-            ]),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: bloc.listCategory.length,
+                itemBuilder: (context, index) {
+                  var data = bloc.listCategory[index];
+                  return InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                                color: data == bloc.selectedCategory
+                                    ? TheColors.primary
+                                    : TheColors.greyPlaceHolder,
+                                width: 1.4)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 2),
+                        margin: const EdgeInsets.only(right: 10),
+                        child: Text(data),
+                      ),
+                      onTap: () {
+                        bloc.setSelectedCategory(data);
+                      });
+                }),
           ),
         ],
       ),
@@ -286,22 +269,24 @@ class FeedScreen extends StatelessWidget {
                 )
               : Container(),
           Expanded(
-            child: ListView(scrollDirection: Axis.horizontal, children: [
-              for (int i = 0; i < 12; i++)
-                InkWell(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 15),
-                    width: height + 5,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/user.png'),
-                            fit: BoxFit.fitWidth),
-                        borderRadius: BorderRadius.circular(height / 10),
-                        border: Border.all(color: TheColors.white, width: 0)),
-                  ),
-                  onTap: () {},
-                ),
-            ]),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      width: height + 5,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/user.png'),
+                              fit: BoxFit.fitWidth),
+                          borderRadius: BorderRadius.circular(height / 10),
+                          border: Border.all(color: TheColors.white, width: 0)),
+                    ),
+                    onTap: () {},
+                  );
+                }),
           ),
         ],
       ),
@@ -360,7 +345,7 @@ class FeedScreen extends StatelessWidget {
             ),
             TheSizedBox.bloodySmallVertical(),
             Text(
-              'dari Rp. 21.000.000',
+              'dari 5 kali arisan',
               style: TextStyle(
                   color: TheColors.white,
                   fontSize: 14,
@@ -379,7 +364,7 @@ class FeedScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)),
                 ),
                 Text(
-                  'Yang udah nyetor (12/16)',
+                  'Udah arisan ke (12/16)',
                   style: TextStyle(color: TheColors.white),
                 ),
               ],
@@ -390,7 +375,7 @@ class FeedScreen extends StatelessWidget {
         ));
   }
 
-  Widget _calendarWidget(BuildContext context) {
+  Widget _calendarWidget(BuildContext context, FeedBloc bloc) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -435,7 +420,7 @@ class FeedScreen extends StatelessWidget {
             ],
           ),
           Text(
-            '14 Feb 2021',
+            DateFormat('dd MMM yyyy – kk:mm').format(bloc.arisanDate),
             style: TextStyle(
                 color: TheColors.white,
                 fontSize: 26,
@@ -446,19 +431,27 @@ class FeedScreen extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  "Januari\n2021",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: TheColors.textReverse,
-                    fontSize: 21,
+                child: TextButton(
+                  onPressed: bloc.datePickerClicked,
+                  child: Text(
+                    DateFormat('MMM\nyyyy').format(bloc.selectedDate),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: TheColors.textReverse,
+                      fontSize: 21,
+                    ),
                   ),
                 ),
               ),
               Expanded(
                 child: CalendarCarousel<Event>(
                   onDayPressed: (DateTime date, List<Event> events) {
-                    print('onDayPressed $date');
+                    // print('onDayPressed $date');
+                    bloc.setSelectedDate(date);
+                  },
+                  onCalendarChanged: (DateTime date) {
+                    // print('onCalendarChanged $date');
+                    bloc.setSelectedDate(date);
                   },
                   daysTextStyle: TextStyle(color: TheColors.textReverse),
                   weekendTextStyle: TextStyle(
@@ -478,7 +471,10 @@ class FeedScreen extends StatelessWidget {
                     bool isThisMonthDay,
                     DateTime day,
                   ) {
-                    if (day.day == 14) {
+                    var arisanDate = bloc.arisanDate;
+                    if (day.day == arisanDate.day &&
+                        day.month == arisanDate.month &&
+                        day.year == arisanDate.year) {
                       return Center(
                         child: Icon(
                           Icons.alarm,
@@ -492,7 +488,8 @@ class FeedScreen extends StatelessWidget {
                   weekFormat: false,
                   markedDatesMap: null,
                   height: 220.0,
-                  selectedDateTime: DateTime.now(),
+                  // selectedDateTime: bloc.selectedDate,
+                  targetDateTime: bloc.selectedDate,
                   daysHaveCircularBorder: null,
                 ),
               ),
@@ -503,7 +500,7 @@ class FeedScreen extends StatelessWidget {
     );
   }
 
-  Widget _pemenangWidget(BuildContext context) {
+  Widget _pemenangWidget(BuildContext context, FeedBloc bloc) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -534,7 +531,7 @@ class FeedScreen extends StatelessWidget {
             ),
             TheSizedBox.bloodySmallVertical(),
             Text(
-              "25 Des 2020",
+              DateFormat('dd MMMM yyyy').format(bloc.arisanDate),
               style: TextStyle(
                 color: TheColors.greyLight,
               ),
@@ -585,7 +582,7 @@ class FeedScreen extends StatelessWidget {
         ));
   }
 
-  Widget _categoryWidget(text, {showAll = true}) {
+  Widget _categoryWidget(text, {showAll = true, Function onTapAll}) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15),
       child: Row(
@@ -594,9 +591,12 @@ class FeedScreen extends StatelessWidget {
           Text(text,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           showAll
-              ? Text(
-                  "Lihat semua",
-                  style: TextStyle(color: TheColors.primary),
+              ? TextButton(
+                  onPressed: onTapAll,
+                  child: Text(
+                    "Lihat semua",
+                    style: TextStyle(color: TheColors.primary),
+                  ),
                 )
               : Container(),
         ],

@@ -13,142 +13,106 @@ import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String routeName = '/profile';
+  bool _pinned = true;
+  bool _snap = false;
+  bool _floating = false;
+
+  // SliverAppBar is declared in Scaffold.body, in slivers of a
+  // CustomScrollView.
   @override
   Widget build(BuildContext context) {
     final UserBloc bloc = Provider.of<UserBloc>(context);
     bloc.didMount(context);
     final dimension = MediaQuery.of(context).size;
-
     return Scaffold(
-      backgroundColor: TheColors.background,
-      key: bloc.scaffoldKey,
-      appBar: null,
-//    ),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.dark,
-        child: SafeArea(
-            child: Container(
-          height: dimension.height,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 60),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    return false;
-                  },
-                  child: SingleChildScrollView(
-                    child: _listBody(context, bloc),
-                  ),
+      backgroundColor: TheColors.white,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: _pinned,
+            snap: _snap,
+            floating: _floating,
+            expandedHeight: 300.0,
+            backgroundColor: TheColors.primary,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(
+                'Nama Lo',
+                style: TextStyle(
+                  color: TheColors.white,
+                  fontWeight: TheFontWeight.bold,
+                  fontSize: 18,
                 ),
               ),
-              appBar(),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 25,
-                child: Text(
-                  "Profile",
-                  textAlign: TextAlign.center,
-                  style: TheTextStyle.contentTitle,
+              background: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
+                      fit: BoxFit.cover),
                 ),
               ),
-            ],
+            ),
           ),
-        )),
+          SliverToBoxAdapter(child: _body(context, bloc)),
+        ],
       ),
     );
   }
 
-  Widget _listBody(BuildContext context, bloc) {
+  Widget _body(BuildContext context, bloc) {
     final dimension = MediaQuery.of(context).size;
-    return ListView(
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      children: [
-        Container(
-          color: TheColors.white,
-          padding: const EdgeInsets.only(top: 0, bottom: 0),
-          constraints: BoxConstraints(
-              minHeight: dimension.height, minWidth: double.infinity),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _listNotifWidget(context, bloc),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _listNotifWidget(BuildContext context, bloc) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-        decoration: BoxDecoration(
-            // color: TheColors.greyPlaceHolder,
-            border: Border.all(color: TheColors.white, width: 0)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+            decoration: BoxDecoration(
+                // color: TheColors.greyPlaceHolder,
+                border: Border.all(color: TheColors.white, width: 0)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      margin: EdgeInsets.all(15).copyWith(right: 25),
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://pixel.nymag.com/imgs/daily/vulture/2017/06/14/14-tom-cruise.w700.h700.jpg'),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 7.0, color: Colors.black)
-                          ])),
-                  onTap: () {},
+                Text(
+                  "Kagura Layla",
+                  style: TextStyle(
+                    color: TheColors.text,
+                    fontWeight: TheFontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Kagura Layla",
-                        style: TextStyle(
-                          color: TheColors.text,
-                          fontWeight: TheFontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text(
-                        "kagura@mpl.com",
-                        style: TextStyle(
-                          color: TheColors.text,
-                          fontWeight: TheFontWeight.normal,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+                Text(
+                  "kagura@mpl.com",
+                  style: TextStyle(
+                    color: TheColors.text,
+                    fontWeight: TheFontWeight.normal,
+                    fontSize: 14,
+                  ),
+                ),
+                TheSizedBox.largeVertical(),
+                Text(
+                  "2 Group Arisan",
+                  style: TextStyle(
+                    color: TheColors.text,
+                    fontWeight: TheFontWeight.normal,
+                    fontSize: 18,
+                  ),
+                ),
+                TheSizedBox.largeVertical(),
+                InkWell(
+                  onTap: bloc.logout,
+                  child: Text(
+                    'Log out',
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
               ],
             ),
-            InkWell(
-              onTap: bloc.logout,
-              child: Center(
-                child: Text(
-                  'Log out',
-                  style:
-                      TextStyle(color: Colors.black, fontFamily: 'Montserrat'),
-                ),
-              ),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

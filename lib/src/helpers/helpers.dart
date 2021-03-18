@@ -368,16 +368,13 @@ class Helpers {
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  print('on tap: selanjutnya');
-                  print(dateTime);
                   onConfirm(dateTime);
                 },
-                child:
-                    Text('SELANJUTNYA', style: TextStyle(color: Colors.white)),
+                child: Text('Pilih', style: TextStyle(color: Colors.white)),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                color: Color(0xFF9DB7ED),
+                color: TheColors.primary,
               ),
             ],
           ),
