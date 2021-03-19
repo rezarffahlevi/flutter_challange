@@ -9,19 +9,20 @@ import 'package:flutter_challange/src/constants/the_theme.dart';
 import 'package:flutter_challange/src/widgets/the_sized_box.dart';
 import './extensions.dart';
 
-Widget appBar({onTap: null}) {
+Widget appBar({onTap: null, icon: Icons.animation}) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 15.0),
     height: 60.0,
     // color: TheColors.blue,
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
           'Mo-Ring',
           style: TheTextStyle.appBarTitle,
         ),
-        TheSizedBox.normalHorizontal(),
-        Spacer(),
+        // TheSizedBox.normalHorizontal(),
+        // Spacer(),
         // InkWell(
         //   child: Container(
         //     padding: const EdgeInsets.all(5.0),
@@ -30,13 +31,15 @@ Widget appBar({onTap: null}) {
         //   onTap: () {},
         // ),
         // TheSizedBox.normalHorizontal(),
-        InkWell(
-          child: Container(
-            padding: const EdgeInsets.all(5.0),
-            child: Icon(Icons.animation, color: TheColors.text),
-          ),
-          onTap: onTap,
-        ),
+        onTap == null
+            ? Container()
+            : InkWell(
+                child: Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Icon(icon, color: TheColors.text),
+                ),
+                onTap: onTap,
+              ),
       ],
     ),
   );

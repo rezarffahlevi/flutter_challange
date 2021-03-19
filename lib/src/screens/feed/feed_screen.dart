@@ -55,7 +55,7 @@ class FeedScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              appBar(),
+              appBar(onTap: () {}),
             ],
           ),
         )),

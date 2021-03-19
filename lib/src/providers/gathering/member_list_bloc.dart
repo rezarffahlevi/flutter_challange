@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
-import 'package:flutter_challange/src/screens/gathering/detail_gathering_screen.dart';
+import 'package:flutter_challange/src/screens/user/profile_screen.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
 import 'package:provider/provider.dart';
 
-class GatheringBloc extends ChangeNotifier {
+class MemberListBloc extends ChangeNotifier {
   BuildContext _context;
 
   CustomLoader loader = CustomLoader();
@@ -19,13 +19,13 @@ class GatheringBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  GatheringBloc() {}
+  MemberListBloc() {}
 
   didMount(context) {
     _context = context;
   }
 
-  arisanClicked() {
-    Navigator.of(_context).pushNamed(DetailGatheringScreen.routeName);
+  memberClicked() {
+    Navigator.of(_context).pushNamed(ProfileScreen.routeName);
   }
 }

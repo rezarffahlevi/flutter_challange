@@ -14,8 +14,8 @@ import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/helpers/validators.dart';
 import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
 import 'package:flutter_challange/src/providers/gathering/gathering_bloc.dart';
+import 'package:flutter_challange/src/providers/gathering/member_list_bloc.dart';
 import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
-import 'package:flutter_challange/src/providers/notification/notification_bloc.dart';
 import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_carousel_slider.dart';
 import 'package:flutter_challange/src/widgets/the_rounded_button.dart';
@@ -23,76 +23,71 @@ import 'package:flutter_challange/src/widgets/the_sized_box.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 
-class NotificationScreen extends StatelessWidget {
-  static const String routeName = '/notification';
+class MemberListScreen extends StatelessWidget {
+  static const String routeName = '/member-list';
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<NotificationBloc>(context);
+    final bloc = Provider.of<MemberListBloc>(context);
     bloc.didMount(context);
     final dimension = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: TheColors.background,
-      key: bloc.scaffoldKey,
-      appBar: null,
-//    ),
+      // key: bloc.scaffoldKey,
+      appBar: AppBar(
+          title: customText(
+            'Daftar Member',
+            context: context,
+            style: TextStyle(fontSize: 20),
+          ),
+          backgroundColor: TheColors.primary,
+          centerTitle: true,
+          actions: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: InkWell(
+                child: Icon(
+                  Icons.person_add,
+                ),
+              ),
+            ),
+          ]),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: SafeArea(
-            child: Container(
-          height: dimension.height,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 60),
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    return false;
-                  },
-                  child: SingleChildScrollView(
-                    child: _body(context),
-                  ),
-                ),
-              ),
-              appBar(),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 25,
-                child: Text(
-                  "Notifikasi",
-                  textAlign: TextAlign.center,
-                  style: TheTextStyle.contentTitle,
-                ),
-              ),
-            ],
+          child: Container(
+            height: dimension.height,
+            child: SingleChildScrollView(
+              child: _body(context, bloc),
+            ),
           ),
-        )),
+        ),
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, MemberListBloc bloc) {
+    final dimension = MediaQuery.of(context).size;
     return ListView.builder(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.only(bottom: 10),
         shrinkWrap: true,
         physics: ClampingScrollPhysics(),
         itemCount: 13,
         itemBuilder: (context, index) {
-          return _notifWidget(context, index);
+          return _arisanWidget(context, bloc);
         });
   }
 
-  Widget _notifWidget(BuildContext context, index) {
+  Widget _arisanWidget(BuildContext context, MemberListBloc bloc) {
     return InkWell(
-      onTap: () {},
+      onTap: bloc.memberClicked,
       child: Container(
+          // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
           decoration: BoxDecoration(
-              color: index == 0 || index == 2
-                  ? TheColors.greyLight
-                  : TheColors.white,
+              color: TheColors.white,
+              borderRadius: BorderRadius.circular(0),
               border: Border.all(color: TheColors.greyPlaceHolder, width: 1)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -101,23 +96,26 @@ class NotificationScreen extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 15, top: 5),
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/user.png'),
-                            fit: BoxFit.fitWidth),
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: TheColors.white, width: 0)),
+                  InkWell(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 15, top: 5),
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/user.png'),
+                              fit: BoxFit.fitWidth),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: TheColors.white, width: 0)),
+                    ),
+                    onTap: () {},
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Duit 1 Milyar",
+                          "Mamang Ilham",
                           style: TextStyle(
                             color: TheColors.text,
                             fontWeight: TheFontWeight.bold,
@@ -125,7 +123,15 @@ class NotificationScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru Dustin Ilham menambahkan member baru",
+                          "0851551188523",
+                          style: TextStyle(
+                            color: TheColors.text,
+                            fontWeight: TheFontWeight.normal,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          "dustinilhma@gmail.com",
                           style: TextStyle(
                             color: TheColors.text,
                             fontWeight: TheFontWeight.normal,
@@ -133,6 +139,17 @@ class NotificationScreen extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: 50,
+                      height: 60,
+                      child: Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 30,
+                      ),
                     ),
                   )
                 ],

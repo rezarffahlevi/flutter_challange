@@ -535,3 +535,9 @@ class Helpers {
 }
 
 enum IntToWrittenEnum { TEENS, TENS, HUNDRED }
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}

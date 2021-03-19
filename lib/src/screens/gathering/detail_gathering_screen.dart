@@ -5,6 +5,7 @@ import 'package:flutter_challange/src/constants/the_font_weight.dart';
 import 'package:flutter_challange/src/constants/the_text_style.dart';
 import 'package:flutter_challange/src/helpers/validators.dart';
 import 'package:flutter_challange/src/models/user/user_model.dart';
+import 'package:flutter_challange/src/providers/gathering/detail_gathering_bloc.dart';
 import 'package:flutter_challange/src/providers/user/user_bloc.dart';
 import 'package:flutter_challange/src/widgets/custom_widget.dart';
 import 'package:flutter_challange/src/widgets/the_sized_box.dart';
@@ -12,8 +13,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
 
-class ProfileScreen extends StatelessWidget {
-  static const String routeName = '/profile';
+class DetailGatheringScreen extends StatelessWidget {
+  static const String routeName = '/detail-gathering';
   bool _pinned = true;
   bool _snap = false;
   bool _floating = false;
@@ -22,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
   // CustomScrollView.
   @override
   Widget build(BuildContext context) {
-    final UserBloc bloc = Provider.of<UserBloc>(context);
+    final DetailGatheringBloc bloc = Provider.of<DetailGatheringBloc>(context);
     bloc.didMount(context);
     final dimension = MediaQuery.of(context).size;
     return Scaffold(
@@ -37,9 +38,7 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: TheColors.primary,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                bloc.user.fullname == null
-                    ? '-'
-                    : bloc.user.fullname.capitalize(),
+                'Arisan Keluarga',
                 style: TextStyle(
                   color: TheColors.white,
                   fontWeight: TheFontWeight.bold,
@@ -59,10 +58,30 @@ class ProfileScreen extends StatelessWidget {
           SliverToBoxAdapter(child: _body(context, bloc)),
         ],
       ),
+      floatingActionButton: InkWell(
+        child: Container(
+            height: 60,
+            width: 60,
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: TheColors.yellow,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: TheColors.yellow, width: 0),
+            ),
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/icons/shake.png',
+                  fit: BoxFit.fitHeight,
+                ),
+                // Text('Kocok')
+              ],
+            )),
+      ),
     );
   }
 
-  Widget _body(BuildContext context, UserBloc bloc) {
+  Widget _body(BuildContext context, DetailGatheringBloc bloc) {
     final dimension = MediaQuery.of(context).size;
     return Container(
       child: Column(
@@ -80,15 +99,20 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Akun",
+                  "Info",
                   style: TextStyle(
                       color: TheColors.primary,
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
                 ),
-                _itemWidget(value: bloc.user.email, key: 'Email', onTap: () {}),
                 _itemWidget(
-                    value: '0838912900067', key: 'No Telp', onTap: () {}),
+                    value: '20', key: 'Anggota', onTap: bloc.memberClicked),
+                _itemWidget(
+                    value: 'Rp. 20.000 / bulan', key: 'Kas', onTap: () {}),
+                _itemWidget(
+                    value: 'Rp. 5.000 / bulan', key: 'Konsumsi', onTap: () {}),
+                _itemWidget(
+                    value: 'Rp. 20.000.000', key: 'Jumlah kas', onTap: () {}),
                 TheSizedBox.smallVertical(),
                 Text(
                   "Settings",
@@ -98,7 +122,9 @@ class ProfileScreen extends StatelessWidget {
                       fontSize: 16),
                 ),
                 _menuWidget(
-                    icon: Icons.logout, text: 'Logout', onTap: bloc.logout),
+                    icon: Icons.delete,
+                    text: 'Hapus',
+                    onTap: bloc.memberClicked),
               ],
             ),
           ),

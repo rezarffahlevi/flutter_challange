@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_challange/src/helpers/helpers.dart';
+import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
 import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
+import 'package:flutter_challange/src/screens/gathering/member_list_screen.dart';
+import 'package:flutter_challange/src/screens/notification/notification_screen.dart';
+import 'package:flutter_challange/src/screens/user/profile_screen.dart';
 import 'package:flutter_challange/src/widgets/the_loader.dart';
 import 'package:provider/provider.dart';
 
 class FeedBloc extends ChangeNotifier {
   BuildContext _context;
+  HomeRootBloc rootBloc;
 
   CustomLoader loader = CustomLoader();
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -46,10 +51,18 @@ class FeedBloc extends ChangeNotifier {
 
   didMount(context) {
     _context = context;
+    rootBloc = Provider.of<HomeRootBloc>(context);
   }
 
-  allMemberCicked() {}
-  allGatherClicked() {}
+  allGatherClicked() {
+    rootBloc.setSelectedIndex(1);
+  }
+
+  allMemberCicked() {
+    // rootBloc.setSelectedIndex(1);
+    Navigator.of(_context).pushNamed(MemberListScreen.routeName);
+  }
+
   datePickerClicked() {
     Helpers.dismissKeyboard(_context);
     Helpers.showDatePicker(_context, 'Tanggal', (value) {
