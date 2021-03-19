@@ -59,22 +59,25 @@ class DetailGatheringScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: InkWell(
+        onTap: bloc.shakeClicked,
         child: Container(
-            height: 60,
-            width: 60,
-            padding: EdgeInsets.all(5),
+            height: 85,
+            width: 110,
             decoration: BoxDecoration(
               color: TheColors.yellow,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: TheColors.yellow, width: 0),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Text('Kocok Arisan'),
                 Image.asset(
                   'assets/icons/shake.png',
-                  fit: BoxFit.fitHeight,
+                  fit: BoxFit.cover,
+                  width: 60,
+                  height: 60,
                 ),
-                // Text('Kocok')
               ],
             )),
       ),
@@ -106,13 +109,33 @@ class DetailGatheringScreen extends StatelessWidget {
                       fontSize: 16),
                 ),
                 _itemWidget(
+                    value: 'Yaya Tech',
+                    key: 'Pemenang Arisan Ke-2',
+                    onTap: bloc.memberClicked),
+                _itemWidget(
+                    value: 'Penarikan Ke-2 dari 16',
+                    key: '31 Maret 2021',
+                    onTap: bloc.memberClicked),
+                TheSizedBox.smallVertical(),
+                Text(
+                  "Detail Group",
+                  style: TextStyle(
+                      color: TheColors.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
+                _itemWidget(
                     value: '20', key: 'Anggota', onTap: bloc.memberClicked),
                 _itemWidget(
                     value: 'Rp. 20.000 / bulan', key: 'Kas', onTap: () {}),
                 _itemWidget(
                     value: 'Rp. 5.000 / bulan', key: 'Konsumsi', onTap: () {}),
                 _itemWidget(
-                    value: 'Rp. 20.000.000', key: 'Jumlah kas', onTap: () {}),
+                    value: 'Rp. 20.000.000', key: 'Saldo Kas', onTap: () {}),
+                _itemWidget(
+                    value: 'Perbulan', key: 'Jangka Waktu', onTap: () {}),
+                _itemWidget(value: 'Pertama', key: 'Putaran', onTap: () {}),
+                _itemWidget(value: 'Bebas', key: 'Tipe Arisan', onTap: () {}),
                 TheSizedBox.smallVertical(),
                 Text(
                   "Settings",
@@ -123,7 +146,7 @@ class DetailGatheringScreen extends StatelessWidget {
                 ),
                 _menuWidget(
                     icon: Icons.delete,
-                    text: 'Hapus',
+                    text: 'Hapus Group',
                     onTap: bloc.memberClicked),
               ],
             ),

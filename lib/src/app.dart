@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/providers/auth/login_bloc.dart';
 import 'package:flutter_challange/src/providers/auth/register_bloc.dart';
 import 'package:flutter_challange/src/providers/feed/feed_bloc.dart';
 import 'package:flutter_challange/src/providers/gathering/detail_gathering_bloc.dart';
 import 'package:flutter_challange/src/providers/gathering/gathering_bloc.dart';
 import 'package:flutter_challange/src/providers/gathering/member_list_bloc.dart';
+import 'package:flutter_challange/src/providers/gathering/shake_bloc.dart';
 import 'package:flutter_challange/src/providers/home/home_root_bloc.dart';
 import 'package:flutter_challange/src/providers/notification/notification_bloc.dart';
 import 'package:flutter_challange/src/providers/onboarding/oboarding_bloc.dart';
@@ -15,11 +18,10 @@ import 'package:flutter_challange/src/screens/feed/feed_screen.dart';
 import 'package:flutter_challange/src/screens/gathering/detail_gathering_screen.dart';
 import 'package:flutter_challange/src/screens/gathering/gathering_screen.dart';
 import 'package:flutter_challange/src/screens/gathering/member_list_screen.dart';
+import 'package:flutter_challange/src/screens/gathering/shake_screen.dart';
 import 'package:flutter_challange/src/screens/home/home_root_screen.dart';
 import 'package:flutter_challange/src/screens/notification/notification_screen.dart';
 import 'package:flutter_challange/src/screens/onboarding/onboarding_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_challange/src/helpers/helpers.dart';
 import 'package:flutter_challange/src/providers/splash/splash_bloc.dart';
 import 'package:flutter_challange/src/screens/splash/splash_screen.dart';
 import 'package:flutter_challange/src/screens/user/profile_screen.dart';
@@ -145,6 +147,15 @@ class _AppState extends State<App> with WidgetsBindingObserver {
             return ChangeNotifierProvider<DetailGatheringBloc>.value(
               value: DetailGatheringBloc(),
               child: DetailGatheringScreen(),
+            );
+          },
+        );
+      case ShakeScreen.routeName:
+        return MaterialPageRoute(
+          builder: (context) {
+            return ChangeNotifierProvider<ShakeBloc>.value(
+              value: ShakeBloc(),
+              child: ShakeScreen(),
             );
           },
         );
